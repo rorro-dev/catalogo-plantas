@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catálogo de plantas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8eee7;--surface:#f6f9f4;--ink:#1c2a22;--muted:#5b6b61;--line:#c9d5c8;--leaf:#2f6b49;--leaf-ink:#fff;--water:#2a6b8c;--ok:#2f6b49;--okbg:#d7ebdd;--warn:#8a4b12;--warnbg:#f6e2c4;--r:14px;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131c17;--surface:#1b2720;--ink:#e6efe8;--muted:#9bb0a2;--line:#2c3c33;--leaf:#6fbf8f;--leaf-ink:#0f1a14;--water:#78b8d6;--ok:#8fd4a9;--okbg:#21382a;--warn:#f0b774;--warnbg:#3b2d17}}
+:root[data-theme="dark"]{--bg:#131c17;--surface:#1b2720;--ink:#e6efe8;--muted:#9bb0a2;--line:#2c3c33;--leaf:#6fbf8f;--leaf-ink:#0f1a14;--ok:#8fd4a9;--okbg:#21382a;--water:#78b8d6;--warn:#f0b774;--warnbg:#3b2d17}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Hanken Grotesk",system-ui,sans-serif}
+h1,h2,h3{font-family:"Young Serif",Georgia,serif;font-weight:400;line-height:1.15;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
+.wrap{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:clamp(2rem,6vw,3.2rem)}
+.sub{color:var(--muted);margin:4px 0 0}
+.btn{background:var(--leaf);color:var(--leaf-ink);border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.bar input[type=search]{flex:1 1 220px;padding:11px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface)}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:8px 14px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column}
+.card:hover{border-color:var(--leaf)}
+.ph{aspect-ratio:4/3;width:100%;object-fit:cover;display:block;background:var(--okbg)}
+.cb{padding:14px 16px 16px}
+.cb h3{font-size:1.3rem}
+.sci{font-style:italic;color:var(--muted);font-size:.92rem;margin:2px 0 10px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:.82rem;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--line)}
+.tag.safe{background:var(--okbg);color:var(--ok)}
+.tag.tox{background:var(--warnbg);color:var(--warn)}
+.empty{padding:40px 10px;text-align:center;color:var(--muted)}
+dialog{border:0;border-radius:18px;padding:0;width:min(720px,94vw);max-height:92vh;background:var(--bg);color:var(--ink)}
+dialog::backdrop{background:rgba(10,20,14,.6)}
+.dh{position:sticky;top:0;background:var(--bg);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);z-index:1}
+.dh h2{font-size:1.5rem}
+.db{padding:6px 20px 24px}
+.hero{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r);margin:14px 0 6px;display:block;background:var(--okbg)}
+.pet{border-radius:var(--r);padding:12px 14px;margin:12px 0;font-weight:500}
+.pet.safe{background:var(--okbg);color:var(--ok)}.pet.tox{background:var(--warnbg);color:var(--warn)}
+section.s{border-top:1px solid var(--line);padding:14px 0}
+section.s h3{font-size:1.15rem;margin-bottom:8px}
+dl{display:grid;grid-template-columns:minmax(110px,150px) 1fr;gap:6px 14px;margin:0}
+dt{color:var(--muted)}dd{margin:0}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500}
+.log li{margin:4px 0}.log time{color:var(--muted);margin-right:8px}
+.row{display:flex;gap:8px;margin-top:10px}
+.row input{flex:1;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface)}
+form label{display:block;margin:12px 0 4px;font-weight:500}
+form input,form select,form textarea{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface)}
+form textarea{min-height:70px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.msg{color:var(--muted);font-size:.92rem;margin:8px 0 0}
+@media (max-width:520px){dl{grid-template-columns:1fr}dt{margin-top:6px}.two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><h1>Mi colección</h1><p class="sub" id="count"></p></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn ghost" id="bData">Copia de seguridad</button>
+    <button class="btn" id="bAdd">Agregar planta</button>
+  </div>
+</header>
+<div class="bar">
+  <input type="search" id="q" placeholder="Buscar por nombre o familia" aria-label="Buscar">
+  <button class="chip" data-f="Fácil" aria-pressed="false">Fácil</button>
+  <button class="chip" data-f="Intermedio" aria-pressed="false">Intermedio</button>
+  <button class="chip" data-f="Exigente" aria-pressed="false">Exigente</button>
+  <button class="chip" data-f="safe" aria-pressed="false">Segura para mascotas</button>
+</div>
+<div class="grid" id="grid"></div>
+</div>
+
+<dialog id="dView"><div class="dh"><h2 id="vTitle"></h2><button class="btn ghost" data-close>Cerrar</button></div><div class="db" id="vBody"></div></dialog>
+
+<dialog id="dAdd"><div class="dh"><h2>Nueva planta</h2><button class="btn ghost" data-close>Cerrar</button></div>
+<div class="db"><form id="fAdd">
+  <label for="n">Nombre común</label><input id="n" required>
+  <label for="s">Nombre científico</label><input id="s">
+  <div class="two"><div><label for="fa">Familia</label><input id="fa"></div>
+  <div><label for="df">Dificultad</label><select id="df"><option>Fácil</option><option>Intermedio</option><option>Exigente</option></select></div></div>
+  <div class="two"><div><label for="pt">Mascotas</label><select id="pt"><option value="safe">Segura (pet friendly)</option><option value="tox">Tóxica o irritante</option></select></div>
+  <div><label for="ph">Foto (opcional)</label><input id="ph" type="file" accept="image/*"></div></div>
+  <label for="ds">Descripción botánica</label><textarea id="ds"></textarea>
+  <label for="li">Luz y rotación</label><textarea id="li"></textarea>
+  <label for="wa">Sustrato y riego</label><textarea id="wa"></textarea>
+  <label for="ca">Fertilización y mantenimiento</label><textarea id="ca"></textarea>
+  <p class="row"><button class="btn" type="submit">Guardar planta</button></p>
+</form></div></dialog>
+
+<dialog id="dData"><div class="dh"><h2>Copia de seguridad</h2><button class="btn ghost" data-close>Cerrar</button></div>
+<div class="db"><p class="sub">Copia el texto y guárdalo en tus notas. Para restaurar, pégalo aquí y pulsa Importar.</p>
+<textarea id="json" style="width:100%;min-height:180px;margin-top:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);padding:10px" aria-label="Datos en JSON"></textarea>
+<div class="row"><button class="btn" id="bCopy">Copiar</button><button class="btn ghost" id="bImp">Importar</button></div>
+<p class="msg" id="dMsg"></p></div></dialog>
+
+<script>
+const BASE=[
+{id:"callisia",name:"Calisia rastrera",sci:"Callisia repens",fam:"Commelinaceae",diff:"Fácil",pet:"tox",
+petNote:"Ligeramente irritante para mascotas. Mantenla colgada o fuera de su alcance.",
+desc:"Planta rastrera o colgante de tallos finos y hojas pequeñas y carnosas, verdes por encima y moradas por debajo. Crece rápido y se propaga fácil por esquejes.",
+light:"Luz indirecta brillante. Con poca luz los tallos se alargan y pierde el tono morado.",rot:"Rotación ocasional para que crezca parejo.",
+sub:"Sustrato aireado y de buen drenaje.",water:"Moderado: por inmersión o por la base. Deja secar la capa superior entre riegos.",pot:"Maceta con drenaje; ideal colgante.",wq:"Tolera agua de grifo reposada.",
+care:"Pinza las puntas para que ramifique. Abono líquido diluido cada 3-4 semanas en primavera y verano.",
+diag:[["Tallos largos y hojas separadas","Falta de luz","Acércala a una ventana luminosa y pinza las puntas"],["Hojas blandas y tallos oscuros","Exceso de riego","Deja secar y revisa el drenaje"],["Puntas secas","Aire muy seco o riego irregular","Riega con más constancia"]]},
+{id:"pilea",name:"Planta china del dinero",sci:"Pilea peperomioides",fam:"Urticaceae",diff:"Fácil",pet:"safe",
+petNote:"Segura para mascotas (pet friendly).",
+desc:"Hojas redondas y planas sobre peciolos largos, como pequeños platillos. Produce hijuelos alrededor de la planta madre que se pueden separar y regalar.",
+light:"Luz indirecta brillante. El sol directo marca las hojas.",rot:"Alta: gírala un cuarto de vuelta cada semana por su fototropismo; si no, se inclina hacia la luz.",
+sub:"Mezcla ligera con perlita o fibra de coco, muy bien drenada.",water:"Moderado: riega cuando el sustrato esté seco unos 3 cm de profundidad.",pot:"Maceta con drenaje; la terracota ayuda a secar.",wq:"Sensible al exceso de cal: usa agua reposada o de lluvia.",
+care:"Abono equilibrado diluido cada 4 semanas en temporada de crecimiento. Separa los hijuelos cuando midan unos 5 cm.",
+diag:[["Planta inclinada","Fototropismo","Gírala cada semana"],["Hojas amarillas y caídas","Exceso de agua","Deja secar y revisa raíces"],["Manchas marrones secas","Sol directo","Muévela a luz filtrada"],["Hojas arrugadas","Sed","Riega a fondo y escurre"]]}
+];
+const EXTRA={
+callisia:{orig:"México, Centroamérica y el Caribe",type:"Interior, colgante o tapizante",size:"Tallos rastreros de 30 a 60 cm",temp:"Óptima 18-24 °C | Mínima 10 °C",hum:"Media",freq:"Primavera/Verano: cada 5-7 días | Otoño/Invierno: cada 10-14 días",trans:"Cada 1-2 años, en primavera",prune:"Pinzar las puntas y retirar tallos secos",prop:"Esquejes en agua o directo en sustrato"},
+pilea:{orig:"Yunnan y Sichuan, China",type:"Interior, de porte erguido",size:"15 a 30 cm",temp:"Óptima 18-24 °C | Mínima 10 °C",hum:"Media",freq:"Primavera/Verano: cada 7-10 días | Otoño/Invierno: cada 12-15 días",trans:"Cada año, en primavera",prune:"Retirar hojas viejas; limpiar el polvo con un paño húmedo",prop:"Separar hijuelos con raíz"}};
+const EXTRA_PLANTS=[{id:"clivia",name:"Clivia",sci:"Clivia miniata",fam:"Amaryllidaceae",diff:"Intermedio",pet:"tox",
+alias:"Lirio de bosque, lirio naranja",orig:"Sudáfrica (sotobosque del sureste del país)",
+petNote:"Tóxica para perros y gatos (contiene licorina, sobre todo en rizoma y raíces): puede causar vómito, salivación y diarrea. Mantenla fuera de su alcance.",
+type:"Herbácea perenne rizomatosa, de interior luminoso o exterior en sombra",size:"40-60 cm; hojas en abanico, largas, arqueadas y en forma de cinta",
+desc:"Hojas verde oscuro, brillantes y correosas. En invierno-primavera produce una umbela de 10-20 flores en embudo, naranjas con centro amarillo; después, frutos rojos.",
+light:"Sombra luminosa o luz indirecta. El sol directo amarillea y quema las hojas.",rot:"No necesaria.",
+temp:"Óptima 15-25 °C | Mínima 5 °C. Para florecer necesita 6-8 semanas de reposo fresco (10-13 °C) en invierno.",hum:"Media",
+freq:"Primavera/Verano: cada 7-10 días | Otoño/Invierno: muy poco; casi seco durante el reposo",
+water:"Regar cuando los primeros 3-4 cm estén secos; nunca encharcar, el rizoma se pudre con facilidad.",wq:"Baja: tolera agua corriente; mejor reposada.",
+sub:"Rico y muy drenante: aprox. 50% tierra universal + 25% corteza fina + 25% perlita",pot:"Con drenaje y ajustada al tamaño de las raíces: florece mejor con raíces apretadas",
+care:"Abono equilibrado a media dosis cada 3-4 semanas en primavera y verano; sin abono durante el reposo.",trans:"Cada 3-4 años, solo cuando llene la maceta, después de la floración",
+prune:"Cortar tallos florales marchitos y hojas secas desde la base",prop:"División de hijuelos con raíz propia al trasplantar; por semilla tarda varios años en florecer",
+diag:[["Hojas amarillas","Exceso de agua o sol directo","Deja secar el sustrato y muévela a sombra luminosa"],["Puntas marrones","Aire seco, sales o riego irregular","Riega con constancia y usa agua reposada"],["No florece","Falta de reposo fresco o poca luz","Dale reposo frío y seco en invierno y más luz indirecta"],["Base blanda o con mal olor","Pudrición del rizoma por exceso de humedad","Retira lo podrido, deja secar y mejora el drenaje"]]}];
+const EXTRA2={
+callisia:{alias:"Enredadera de tortuga (Turtle Vine), colchón de novia, siempreviva rastrera",orig:"América Central y del Sur",type:"Herbácea perenne, semi-suculenta, rastrera y colgante",size:"Crecimiento muy rápido y denso; cascada tupida en maceta colgante o tapizante en suelo",desc:"Hojas pequeñas, redondeadas a ovaladas y carnosas; haz verde brillante y envés violáceo. Tallos finos, frágiles y rojizos que enraízan en cada nudo. Flores blancas de tres pétalos a fines de primavera o verano; su atractivo principal es el follaje.",light:"Luz brillante indirecta. Tolera sol directo muy suave a primera hora (intensifica el púrpura y compacta los nudos); evita el de mediodía y tarde. Con poca luz se etiola. Ideal: ventana este o norte (sur u oeste con cortina traslúcida), en maceta colgante o estante alto con ventilación, lejos de corrientes frías y calefacción.",temp:"Óptima 18-26 °C | Mínima 10 °C (no tolera heladas)",hum:"Media (40%-60%)",freq:"Primavera/Verano: 1-2 veces por semana | Otoño/Invierno: reducir",water:"Dejar secar los primeros 2-3 cm del sustrato. Mejor por inmersión o por la orilla; evita mojar de más el centro del follaje por arriba (pudrición de tallos basales).",wq:"Baja a media: tolera agua corriente, pero conviene reposarla un día para que se evapore el cloro. Evita el agua muy fría.",sub:"Ligero, suelto y de excelente drenaje: 60% tierra negra o sustrato universal + 40% perlita o arena gruesa",pot:"Con orificios de drenaje funcionales",care:"Abono líquido suave para plantas verdes a media dosis, una vez al mes en primavera y verano; suspender en otoño e invierno.",prune:"Recortar las puntas para estimular brotes laterales. Si la base se seca o pierde hojas, renovarla con esquejes.",prop:"Esquejes de 5-8 cm sin las hojas inferiores, clavados en sustrato húmedo; enraízan en pocos días.",petNote:"Ligeramente irritante para perros y gatos si la mastican (dermatitis de contacto o malestar digestivo leve). Mantenerla en altura."},
+pilea:{alias:"Planta misionera, planta OVNI, planta pancake",orig:"Sudoeste de China (Yunnan)",type:"Herbácea perenne de interior, suculenta suave",size:"Tallo central erecto, semi-leñoso con la madurez; pecíolos largos con hojas peltadas en forma de disco",desc:"Hojas redondas, carnosas, verde esmeralda brillante; los poros blancos del envés (hidátodos) son normales. Flores diminutas blanco-rosáceas, poco comunes en interior.",light:"Luz indirecta abundante. Evita el sol intenso de mediodía; tolera 1 hora de sol suave de mañana o última hora de la tarde. Ventana este o norte.",rot:"Indispensable, 1 o 2 veces por semana: gira la maceta 90°. Es muy fototrópica y se dobla hacia la luz.",temp:"Óptima 16-24 °C | Mínima 10 °C, sin corrientes de aire directas",hum:"Media (40%-60%)",freq:"Primavera/Verano: cada 7-10 días | Otoño/Invierno: cada 12-15 días (verifica el sustrato antes)",water:"Dejar secar casi por completo (los primeros dos tercios) entre riegos. Riego por arriba hasta que drene y retirar el agua del plato tras 15 minutos.",wq:"Media: tolera agua corriente, pero prefiere reposada a temperatura ambiente para no acumular sales en los bordes de las hojas.",sub:"Muy aireada y ligera: 50% sustrato universal o turba + 30% perlita + 20% humus de lombriz o corteza fina",pot:"Plástico o terracota con buen drenaje; la terracota es ideal para no retener humedad",care:"Abono equilibrado para plantas verdes a 1/2 dosis cada 3-4 semanas en primavera y verano.",prune:"Retirar hojas inferiores viejas que amarilleen de forma natural; limpiar el polvo con un paño húmedo suave.",prop:"Hijuelos basales del rizoma o brotes en el tallo; separar con corte limpio con 4-5 hojas y enraizar en agua o sustrato húmedo.",petNote:"No tóxica: segura para perros y gatos.",diag:[["Hojas en forma de cúpula o tazón","Exceso de calor o falta de luz","Muévela a un lugar más fresco y luminoso"],["Hojas inferiores amarillas y tallos blandos","Exceso de riego (riesgo de pudrición de raíz)","Deja secar y revisa drenaje y raíces"],["Hojas caídas y poco firmes con sustrato seco","Sed","Riega a fondo y escurre"],["Manchas marrones secas o hojas blanquecinas","Quemaduras por sol directo","Muévela a luz filtrada"],["Puntos blancos en el envés","Hidátodos: sales expulsadas, inocuos (común con agua dura)","No requiere acción; usa agua reposada"]]}};
+const KEY="plantas:v1";
+let S={custom:[],log:{},photo:{},meta:{}};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert("No se pudo guardar en este navegador. Usa la copia de seguridad.")}};
+const all=()=>BASE.concat(EXTRA_PLANTS).map(p=>Object.assign({},p,EXTRA[p.id]||{},EXTRA2[p.id]||{})).concat(S.custom);
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?"":t).replace(/[<>&"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let filt=new Set();
+
+function art(p){let h=0;for(const c of p.id)h=(h*31+c.charCodeAt(0))%360;h=100+h%70;
+let l="";for(let i=0;i<7;i++){const a=i*51*Math.PI/180,x=200+Math.cos(a)*62,y=150+Math.sin(a)*62;l+=`<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="34" ry="16" transform="rotate(${(i*51).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})" fill="hsl(${h} 38% ${38+i*3}%)"/>`}
+const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="hsl(${h} 30% 88%)"/>${l}<circle cx="200" cy="150" r="14" fill="hsl(${h} 45% 28%)"/></svg>`;
+return "data:image/svg+xml;utf8,"+encodeURIComponent(s)}
+const img=p=>S.photo[p.id]||p.img||art(p);
+const petTag=p=>p.pet==="safe"?'<span class="tag safe">Pet friendly</span>':'<span class="tag tox">Tóxica o irritante</span>';
+
+function render(){
+const q=$("#q").value.trim().toLowerCase();
+const list=all().filter(p=>{
+ if(q&&!(p.name+" "+p.sci+" "+p.fam).toLowerCase().includes(q))return false;
+ const d=["Fácil","Intermedio","Exigente"].filter(x=>filt.has(x));
+ if(d.length&&!d.includes(p.diff))return false;
+ if(filt.has("safe")&&p.pet!=="safe")return false;return true});
+$("#count").textContent=all().length+(all().length===1?" planta":" plantas")+(list.length!==all().length?\" · mostrando \"+list.length:"");
+$("#grid").innerHTML=list.length?list.map(p=>`<button class="card" data-id="${esc(p.id)}"><img class="ph" alt="" src="${img(p)}"><div class="cb"><h3>${esc(p.name)}</h3><p class="sci">${esc(p.sci)}</p><div class="tags"><span class="tag">${esc(p.diff)}</span>${petTag(p)}</div></div></button>`).join(""):'<p class="empty">Ninguna planta coincide. Cambia la búsqueda o quita un filtro.</p>'}
+
+function view(id){
+const p=all().find(x=>x.id===id);if(!p)return;
+const row=(k,v)=>v?`<dt>${k}</dt><dd>${esc(v)}</dd>`:"";
+const diag=(p.diag&&p.diag.length)?`<div class="tw"><table><thead><tr><th>Síntoma</th><th>Causa</th><th>Solución</th></tr></thead><tbody>${p.diag.map(d=>`<tr><td>${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join("")}</tbody></table></div>`:'<p class="msg">Sin síntomas registrados todavía.</p>';
+const log=(S.log[id]||[]);const m=(S.meta||{})[id]||{};const inp="width:100%;padding:6px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface)";
+$("#vTitle").textContent=p.name;
+$("#vBody").innerHTML=`<img class="hero" alt="${esc(p.name)}" src="${img(p)}">
+<label class="btn ghost" style="display:inline-block">Cambiar foto<input type="file" accept="image/*" id="vPh" hidden></label>
+<div class="pet ${p.pet}">${p.pet==="safe"?"Segura para mascotas. ":"Atención con mascotas. "}${esc(p.petNote||"")}</div>
+<section class="s"><h3>Datos generales</h3><dl>${row("Nombre común",p.name)}${row("Nombre científico",p.sci)}${row("Otros nombres",p.alias)}${row("Familia",p.fam)}${row("Origen",p.orig)}${row("Dificultad",p.diff)}<dt>Fecha de adquisición</dt><dd><input type="date" id="mDate" aria-label="Fecha de adquisición" style="${inp}" value="${esc(m.mDate)}"></dd><dt>Ubicación en el hogar</dt><dd><input id="mLoc" aria-label="Ubicación en el hogar" style="${inp}" placeholder="Ej. Sala, ventana este" value="${esc(m.mLoc)}"></dd></dl></section>
+<section class="s"><h3>Descripción botánica</h3><dl>${row("Tipo de planta",p.type)}${row("Hábito y tamaño",p.size)}${row("Hojas y flores",p.desc)}</dl></section>
+<section class="s"><h3>Clima y exposición</h3><dl>${row("Iluminación",p.light)}${row("Necesidad de rotación",p.rot)}${row("Temperatura",p.temp)}${row("Humedad ambiental",p.hum)}</dl></section>
+<section class="s"><h3>Sustrato y riego</h3><dl>${row("Frecuencia de riego",p.freq)}${row("Criterio de riego",p.water)}${row("Sensibilidad al agua",p.wq)}${row("Maceta y drenaje",p.pot)}${row("Mezcla de sustrato",p.sub)}</dl></section>
+<section class="s"><h3>Mantenimiento y reproducción</h3><dl>${row("Fertilización",p.care)}${row("Trasplante",p.trans)}${row("Poda y limpieza",p.prune)}${row("Propagación",p.prop)}${row("Mascotas y niños",p.petNote)}</dl></section>
+<section class="s"><h3>Diagnóstico rápido</h3>${diag}</section>
+<section class="s"><h3>Bitácora de seguimiento</h3><ul class="log" id="lg">${log.map(e=>`<li><time>${esc(e.d)}</time>${esc(e.t)}</li>`).join("")||'<li class="msg">Aún no hay notas. Anota riegos, trasplantes o cambios.</li>'}</ul>
+<form class="row" id="fLog"><input id="lt" placeholder="Ej. Riego por inmersión" aria-label="Nueva nota"><button class="btn" type="submit">Agregar nota</button></form></section>
+${p.custom?'<p><button class="btn ghost" id="bDel">Eliminar planta</button></p>':""}`;
+$("#fLog").onsubmit=e=>{e.preventDefault();const t=$("#lt").value.trim();if(!t)return;(S.log[id]=S.log[id]||[]).push({d:new Date().toLocaleDateString("es"),t});save();view(id)};
+$("#vPh").onchange=e=>shrink(e.target.files[0],u=>{S.photo[id]=u;save();view(id);render()});
+["mDate","mLoc"].forEach(k=>$("#"+k).onchange=e=>{S.meta=S.meta||{};(S.meta[id]=S.meta[id]||{})[k]=e.target.value;save()});
+if($("#bDel"))$("#bDel").onclick=()=>{if(confirm("¿Eliminar "+p.name+"?")){S.custom=S.custom.filter(x=>x.id!==id);delete S.photo[id];delete S.log[id];save();$("#dView").close();render()}};
+$("#dView").showModal()}
+
+function shrink(f,cb){if(!f)return cb(null);const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,800/i.width),c=document.createElement("canvas");c.width=i.width*k;c.height=i.height*k;c.getContext("2d").drawImage(i,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.78))};i.src=r.result};r.readAsDataURL(f)}
+
+$("#grid").onclick=e=>{const c=e.target.closest(".card");if(c)view(c.dataset.id)};
+$("#q").oninput=render;
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const f=b.dataset.f;filt.has(f)?filt.delete(f):filt.add(f);b.setAttribute("aria-pressed",filt.has(f));render()});
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>b.closest("dialog").close());
+$("#bAdd").onclick=()=>$("#dAdd").showModal();
+$("#fAdd").onsubmit=e=>{e.preventDefault();
+ shrink($("#ph").files[0],u=>{
+ const id="p"+Date.now();
+ S.custom.push({id,custom:true,name:$("#n").value.trim(),sci:$("#s").value.trim(),fam:$("#fa").value.trim(),diff:$("#df").value,pet:$("#pt").value,
+ petNote:$("#pt").value==="safe"?"Segura para mascotas.":"Mantén fuera del alcance de mascotas.",desc:$("#ds").value,light:$("#li").value,sub:$("#wa").value,care:$("#ca").value,diag:[]});
+ if(u)S.photo[id]=u;save();$("#fAdd").reset();$("#dAdd").close();render()})};
+$("#bData").onclick=()=>{$("#json").value=JSON.stringify(S);$("#dMsg").textContent="";$("#dData").showModal()};
+$("#bCopy").onclick=async()=>{try{await navigator.clipboard.writeText($("#json").value);$("#dMsg").textContent="Copiado."}catch(e){$("#json").select();$("#dMsg").textContent="Selecciona y copia el texto manualmente."}};
+$("#bImp").onclick=()=>{try{const d=JSON.parse($("#json").value);if(!Array.isArray(d.custom))throw 0;S={custom:d.custom,log:d.log||{},photo:d.photo||{},meta:d.meta||{}};save();render();$("#dMsg").textContent="Importado."}catch(e){$("#dMsg").textContent="El texto no es una copia válida."}};
+render();
+</script>
+</body>
+</html>
